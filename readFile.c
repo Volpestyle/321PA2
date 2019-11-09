@@ -7,8 +7,10 @@
 void parseHexCode(__uint32_t);
 void execute_i_format(__uint32_t code, char* operation);
 void execute_r_format(__uint32_t code, char* operation);
+void setFlags(__uint32_t val);
 
 __uint32_t memory[64];
+int pc = 0;
 int n_flag;
 int z_flag;
 int v_flag;
@@ -38,8 +40,8 @@ int main () {
    /* Read and display data */
    fread(buffer, 4, sz, fp);
    
-   for(int i = 0; i < sz/4; i++){
-      __uint32_t val = buffer[i];
+   for(pc = 0; pc < sz/4; pc++){
+      __uint32_t val = buffer[pc];
       val = htobe32(val);
       parseHexCode(val);
       //printf("%x\n", val);
@@ -87,12 +89,13 @@ void parseHexCode(__uint32_t val){
       return;
    
    case 0b11010011010:
-      printf("LSR Instruction");
+      printf("LSR Instruction\n");
       execute_r_format(val, "lsr");
       return;
 
    case 0b11010110000:
       printf("BR Instruction\n");
+      execute_r_format(val, "br");
       return;
 
    case 0b11101011000:
@@ -100,7 +103,9 @@ void parseHexCode(__uint32_t val){
       execute_r_format(val, "subs");
       return;
    
-   
+   case 0b10011011000:
+      printf("MUL Instruction\n");
+      execute_r_format(val, "mul");
    }
    opcode = val >> 22;
    switch (opcode)
@@ -154,7 +159,7 @@ void execute_i_format(__uint32_t code, char* operation){
    }
    else if(operation == "subis"){
       memory[rd] = memory[rn] - immediate;
-      //TODO: Set Flags
+      setFlags(memory[rd]);
    }
    printf("%d\n", memory[rd]);
 }
@@ -165,25 +170,48 @@ void execute_r_format(__uint32_t code, char* operation){
    int shamt = (code >> 10) & 0x3F;
    int rm = (code >> 16) & 0x1F;
    //TODO implement shamt
-   printf("%d ", memory[rd]);
-   if(operation = "add"){
+   //printf("%d ", memory[rd]);
+   if(operation == "add"){
       memory[rd] = memory[rn] + memory[rm];
    }
-   else if(operation = "sub"){
+   else if(operation == "sub"){
       memory[rd] = memory[rn] - memory[rm];
    }
-   else if(operation = "and"){
+   else if(operation == "and"){
       memory[rd] = memory[rn] & memory[rm];
    }
-   else if(operation = "subs"){
+   else if(operation == "subs"){
       memory[rd] = memory[rn] - memory[rm];
       //TODO: set flags
    }
-   else if(operation = "lsl"){
+   else if(operation == "lsl"){
       memory[rd] = memory[rn] << shamt;
    }
-   else if(operation = "lsr"){
+   else if(operation == "lsr"){
       memory[rd] = memory[rn] >> shamt;
    }
+   else if(operation == "eor"){
+      memory[rd] = memory[rn] ^ memory[rm];
+   }
+   else if(operation == "br"){
+      //printf("%d %d %d", rd, rm, rn);
+      pc = memory[rn];
+   }
+   else if(operation == "mul"){
+      memory[rd] = memory[rn] * memory[rm];
+   }
    printf("%d\n", memory[rd]);
+}
+
+
+void setFlags(__uint32_t val){ 
+   if(val == 0){
+      z_flag = 1;
+   }
+   else if(val < 0){
+      n_flag = 1;
+   }
+   else if(val > 0){
+      n_flag = 0;
+   }
 }
