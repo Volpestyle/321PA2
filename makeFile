@@ -1,0 +1,2 @@
+legv8BTC: main.c readFile.c opFunctions.c convert.c
+	gcc main.c readFile.c opFunctions.c convert.c -o BTC
