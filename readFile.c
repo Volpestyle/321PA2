@@ -11,6 +11,7 @@ void setFlags(__uint32_t val);
 
 __uint32_t memory[4096];
 __uint32_t reg[64];
+__uint32_t stack[512];
 int pc = 0;
 int n_flag;
 int z_flag;
@@ -211,10 +212,20 @@ void execute_d_format(__uint32_t code, char* operation){
    int op2 = (code >> 10) & 0x3;
    int address = (code >> 12) & 0x1ff;
    if(operation == "ldur"){
-      reg[rt] = memory[rn + address/8]; 
+      if(rt == 29 || rt == 30){
+         reg[rt] = stack[rn + address/8]; 
+      }
+      else{
+         reg[rt] = memory[rn + address/8]; 
+      }
    }
    else if(operation == "stur"){
-      memory[rn + address/8] = rt;
+      if(rt == 29 || rt == 30){
+         reg[rt] = stack[rn + address/8]; 
+      }
+      else{
+         memory[rn + address/8] = rt;
+      }
    }
 }
 
