@@ -9,6 +9,7 @@
 void iFormat(OpCodeInstr op, int i);
 void rFormat(OpCodeInstr op, int i);
 void dFormat(OpCodeInstr op, int i);
+void executeInstructions();
 
 struct instructionData
 {
@@ -66,7 +67,7 @@ int main(int argc, char const *argv[])
       instructionData[i].shamt = (op.opcode >> 10) & 0x3F;
       instructionData[i].rm = (op.opcode >> 16) & 0x1F;
       printf(" -- I");
-      printf(" -> Imm = %d, Rn = %d, Rd = %d\n", instructionData[i].imm, instructionData[i].rn, instructionData[i].rd);
+      printf(" -> Immediate = %d, Rn = %d, Rd = %d\n", instructionData[i].immediate, instructionData[i].rn, instructionData[i].rd);
    }
 
    void dFormat(OpCodeInstr op, int i)
