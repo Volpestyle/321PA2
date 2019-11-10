@@ -13,19 +13,16 @@ int v_flag;
 int c_flag;
 
 #define MAX 1000
+struct instructionData instructionData[MAX];
 int instructions[MAX];
 u_int64_t regArr[32];
 u_int64_t memory[512];
 u_int64_t stack[64];
 
-struct registerData {
-	int rm, rn, rd, immediate
-}
-
-struct addressData {
-	int destAddress, branchAddress, condBranchAddress,
-}
-
+struct instructionData
+{
+   int rm, rn, rd, immediate, destAddress, branchAddress, condBranchAddress
+};
 
 int main(int argc, char const *argv[])
 {
@@ -35,7 +32,7 @@ int main(int argc, char const *argv[])
    {
       printf("%x\n", instructions[i]);
    }
-} /*
+}
 void parseHexCode(__uint32_t val)
 {
    __uint32_t opcode = val >> 21;
@@ -117,9 +114,9 @@ void parseHexCode(__uint32_t val)
       return;
    }
 }
-*/
-  /*
-void execute_i_format(__uint32_t code, char *operation)
+* /
+
+    void execute_i_format(__uint32_t code, char *operation)
 {
    int rd = code & 0x1F;
    int rn = (code >> 5) & 0x1F;
@@ -184,4 +181,5 @@ void execute_r_format(__uint32_t code, char *operation)
       memory[rd] = memory[rn] >> shamt;
    }
    printf("%d\n", memory[rd]);
-}*/
+}
+* /
