@@ -18,6 +18,15 @@ u_int64_t regArr[32];
 u_int64_t memory[512];
 u_int64_t stack[64];
 
+struct registerData {
+	int rm, rn, rd, immediate
+}
+
+struct addressData {
+	int destAddress, branchAddress, condBranchAddress,
+}
+
+
 int main(int argc, char const *argv[])
 {
    FILE *file;
