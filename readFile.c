@@ -200,7 +200,18 @@ void execute_r_format(__uint32_t code, char* operation){
    else if(operation == "mul"){
       memory[rd] = memory[rn] * memory[rm];
    }
-   printf("%d\n", memory[rd]);
+   
+   //printf("%d\n", memory[rd]);
+}
+
+void execute_d_format(__uint32_t code, char* operation){
+   int rt = code & 0x1F;
+   int rn = (code >> 5) & 0x1F; 
+   int op2 = (code >> 10) & 0x3;
+   int address = (code >> 12) & 0x1ff;
+   if(operation == "ldur"){
+      memory[rt] = memory[memory[rn] + address/8]; 
+   }
 }
 
 
