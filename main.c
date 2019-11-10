@@ -4,22 +4,24 @@
 #include "readFile.h"
 #include "convert.h"
 
+#define MAX 1000
+
 void iFormat(OpCodeInstr op, int i);
 void rFormat(OpCodeInstr op, int i);
 void dFormat(OpCodeInstr op, int i);
-
-#define MAX 1000
-struct instructionData instructionData[MAX];
-int rawInstructions[MAX];
-OpCodeInstr instructions[MAX];
-u_int64_t regArr[32];
-u_int64_t memory[512];
-u_int64_t stack[64];
 
 struct instructionData
 {
    int rm, rn, rd, immediate, shamt, destAddress, branchAddress, condBranchAddress
 };
+
+u_int64_t regArr[32];
+u_int64_t memory[512];
+u_int64_t stack[64];
+
+struct instructionData instructionData[MAX];
+int rawInstructions[MAX];
+OpCodeInstr instructions[MAX];
 
 int main(int argc, char const *argv[])
 {
@@ -45,7 +47,7 @@ int main(int argc, char const *argv[])
          dFormat(op, index);
          break;
       }
-      executer();
+      executeInstructions();
    }
 
    void iFormat(OpCodeInstr op, int i)
@@ -59,25 +61,25 @@ int main(int argc, char const *argv[])
 
    void rFormat(OpCodeInstr op, int i)
    {
-      instructionData[i].rd = op.code & 0x1F;
-      instructionData[i].rd = (op.code >> 5) & 0x1F;
-      instructionData[i].shamt = (op.code >> 10) & 0x3F;
-      instructionData[i].rm = (op.code >> 16) & 0x1F;
+      instructionData[i].rd = op.opcode & 0x1F;
+      instructionData[i].rd = (op.opcode >> 5) & 0x1F;
+      instructionData[i].shamt = (op.opcode >> 10) & 0x3F;
+      instructionData[i].rm = (op.opcode >> 16) & 0x1F;
       printf(" -- I");
       printf(" -> Imm = %d, Rn = %d, Rd = %d\n", instructionData[i].imm, instructionData[i].rn, instructionData[i].rd);
    }
 
    void dFormat(OpCodeInstr op, int i)
    {
-      instructionData[i].rd = code & 0x1F;
-      instructionData[i].rn = (code >> 5) & 0x1F;
-      instructionData[i].op2 = (code >> 10) & 0x3;
+      instructionData[i].rd = op.code & 0x1F;
+      instructionData[i].rn = (op.code >> 5) & 0x1F;
+      instructionData[i].op2 = (op.code >> 10) & 0x3;
       instructionData[i].destAddress = (code >> 12) & 0x1ff;
       printf(" -- D");
       printf(" -> DTa = %d, Rn = %d, Rt = %d\n", instructionData[i].dtaddr, instructionData[i].rn, instructionData[i].rd);
    }
 
-   void executer()
+   void executeInstructions()
    {
       for (i = 0; i < size; i++)
       {
