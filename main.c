@@ -2,184 +2,89 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include "readFile.h"
+#include "convert.h"
 
-void parseHexCode(__uint32_t);
-void execute_i_format(__uint32_t code, char *operation);
-void execute_r_format(__uint32_t code, char *operation);
-
-int n_flag;
-int z_flag;
-int v_flag;
-int c_flag;
+void iFormat(OpCodeInstr op, int i);
+void rFormat(OpCodeInstr op, int i);
+void dFormat(OpCodeInstr op, int i);
 
 #define MAX 1000
 struct instructionData instructionData[MAX];
-int instructions[MAX];
+int rawInstructions[MAX];
+OpCodeInstr instructions[MAX];
 u_int64_t regArr[32];
 u_int64_t memory[512];
 u_int64_t stack[64];
 
 struct instructionData
 {
-   int rm, rn, rd, immediate, destAddress, branchAddress, condBranchAddress
+   int rm, rn, rd, immediate, shamt, destAddress, branchAddress, condBranchAddress
 };
 
 int main(int argc, char const *argv[])
 {
    FILE *file;
-   int size = readFile(argc, argv, instructions, file);
+   int size = readFile(argc, argv, rawInstructions, file);
    for (int i = 0; i < size; i++)
    {
-      printf("%x\n", instructions[i]);
+      printf("%x\n", rawInstructions[i]);
    }
-}
-void parseHexCode(__uint32_t val)
-{
-   __uint32_t opcode = val >> 21;
-   switch (opcode)
+   for (int index = 0; index < size; index++)
    {
-   case 0b10001011000:
-      printf("ADD Instruction\n");
-      execute_r_format(val, "add");
-      return;
-
-   case 0b10001010000:
-      printf("AND Instruction\n");
-      execute_r_format(val, "and");
-      return;
-
-   case 0b11001010000:
-      printf("EOR Instruction\n");
-      return;
-
-   case 0b11001011000:
-      printf("SUB Instruction\n");
-      execute_r_format(val, "sub");
-      return;
-
-   case 0b11111000000:
-      printf("STUR Instruction\n");
-      return;
-
-   case 0b11111000010:
-      printf("LDUR Instruction\n");
-      return;
-
-   case 0b11010011011:
-      printf("LSL Instruction\n");
-      execute_r_format(val, "lsl");
-      return;
-
-   case 0b11010011010:
-      printf("LSR Instruction");
-      execute_r_format(val, "lsr");
-      return;
-
-   case 0b11010110000:
-      printf("BR Instruction\n");
-      return;
-
-   case 0b11101011000:
-      printf("SUBS Instruction\n");
-      execute_r_format(val, "subs");
-      return;
+      OpCodeInstr op = convert(rawInstructions[index]);
+      instructions[index] = op;
+      switch (op.optype)
+      {
+      case R:
+         rFormat(op, index);
+         break;
+      case I:
+         iFormat(op, index);
+         break;
+      case D:
+         dFormat(op, index);
+         break;
+      }
+      executer();
    }
-   opcode = val >> 22;
-   switch (opcode)
+
+   void iFormat(OpCodeInstr op, int i)
    {
-   case 0b1001000100:
-      printf("ADDI instruction\n");
-      execute_i_format(val, "addi");
-      return;
+      instructionData[i].rd = op.opcode & 0x1F;
+      instructionData[i].rn = (op.opcode >> 5) & 0x1F;
+      instructionData[i].immediate = (op.opcode >> 10) & 0xfff;
+      printf(" -- R");
+      printf(" -> Rm = %d, Rn = %d, Rd = %d\n", instructionData[i].rm, instructionData[i].rn, instructionData[i].rd);
+   }
 
-   case 0b1101000100:
-      printf("SUBI Instruction\n");
-      execute_i_format(val, "subi");
+   void rFormat(OpCodeInstr op, int i)
+   {
+      instructionData[i].rd = op.code & 0x1F;
+      instructionData[i].rd = (op.code >> 5) & 0x1F;
+      instructionData[i].shamt = (op.code >> 10) & 0x3F;
+      instructionData[i].rm = (op.code >> 16) & 0x1F;
+      printf(" -- I");
+      printf(" -> Imm = %d, Rn = %d, Rd = %d\n", instructionData[i].imm, instructionData[i].rn, instructionData[i].rd);
+   }
 
-      return;
+   void dFormat(OpCodeInstr op, int i)
+   {
+      instructionData[i].rd = code & 0x1F;
+      instructionData[i].rn = (code >> 5) & 0x1F;
+      instructionData[i].op2 = (code >> 10) & 0x3;
+      instructionData[i].destAddress = (code >> 12) & 0x1ff;
+      printf(" -- D");
+      printf(" -> DTa = %d, Rn = %d, Rt = %d\n", instructionData[i].dtaddr, instructionData[i].rn, instructionData[i].rd);
+   }
 
-   case 0b1001001000:
-      printf("ANDI Instruction\n");
-      execute_i_format(val, "andi");
-      return;
-
-   case 0b1011001000:
-      printf("ORRI Instruction\n");
-      execute_i_format(val, "orri");
-      break;
-
-   case 0b1111000100:
-      printf("SUBIS Instruction\n");
-      execute_i_format(val, "subis");
-      return;
-   }
-}
-* /
-
-    void execute_i_format(__uint32_t code, char *operation)
-{
-   int rd = code & 0x1F;
-   int rn = (code >> 5) & 0x1F;
-   int immediate = (code >> 10) & 0xfff;
-   printf("%d ", memory[rd]);
-   //printf("%x\n%x\n%d\n", rd, rn, immediate);
-   if (operation == "addi")
+   void executer()
    {
-      memory[rd] = memory[rn] + immediate;
+      for (i = 0; i < size; i++)
+      {
+         switch (instructions[i].opcode)
+         {
+         case 580:
+            addI(instructionData[i].rd, instructionData[i].rn, instructionData[i].immediate, regArr) break;
+         }
+      }
    }
-   else if (operation == "subi")
-   {
-      memory[rd] = memory[rn] - immediate;
-   }
-   else if (operation == "andi")
-   {
-      memory[rd] = memory[rn] & immediate;
-   }
-   else if (operation == "orri")
-   {
-      memory[rd] = memory[rn] | immediate;
-   }
-   else if (operation == "subis")
-   {
-      memory[rd] = memory[rn] - immediate;
-      //TODO: Set Flags
-   }
-   printf("%d\n", memory[rd]);
-}
-
-void execute_r_format(__uint32_t code, char *operation)
-{
-   int rd = code & 0x1F;
-   int rn = (code >> 5) & 0x1F;
-   int shamt = (code >> 10) & 0x3F;
-   int rm = (code >> 16) & 0x1F;
-   //TODO implement shamt
-   printf("%d ", memory[rd]);
-   if (operation = "add")
-   {
-      memory[rd] = memory[rn] + memory[rm];
-   }
-   else if (operation = "sub")
-   {
-      memory[rd] = memory[rn] - memory[rm];
-   }
-   else if (operation = "and")
-   {
-      memory[rd] = memory[rn] & memory[rm];
-   }
-   else if (operation = "subs")
-   {
-      memory[rd] = memory[rn] - memory[rm];
-      //TODO: set flags
-   }
-   else if (operation = "lsl")
-   {
-      memory[rd] = memory[rn] << shamt;
-   }
-   else if (operation = "lsr")
-   {
-      memory[rd] = memory[rn] >> shamt;
-   }
-   printf("%d\n", memory[rd]);
-}
-* /
