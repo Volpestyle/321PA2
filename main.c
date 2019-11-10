@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "readFile.h"
 #include "convert.h"
-
+#include "opFunctions.h"
 #define MAX 1000
 
 void iFormat(OpCodeInstr op, int i);
@@ -72,22 +72,23 @@ int main(int argc, char const *argv[])
 
    void dFormat(OpCodeInstr op, int i)
    {
-      instructionData[i].rd = op.code & 0x1F;
-      instructionData[i].rn = (op.code >> 5) & 0x1F;
-      instructionData[i].op2 = (op.code >> 10) & 0x3;
-      instructionData[i].destAddress = (code >> 12) & 0x1ff;
+      instructionData[i].rd = op.opcode & 0x1F;
+      instructionData[i].rn = (op.opcode >> 5) & 0x1F;
+      instructionData[i].op2 = (op.opcode >> 10) & 0x3;
+      instructionData[i].destAddress = (op.opcode >> 12) & 0x1ff;
       printf(" -- D");
-      printf(" -> DTa = %d, Rn = %d, Rt = %d\n", instructionData[i].dtaddr, instructionData[i].rn, instructionData[i].rd);
+      printf(" -> DTa = %d, Rn = %d, Rt = %d\n", instructionData[i].destAddress, instructionData[i].rn, instructionData[i].rd);
    }
 
    void executeInstructions()
    {
-      for (i = 0; i < size; i++)
+      for (int i = 0; i < size; i++)
       {
          switch (instructions[i].opcode)
          {
          case 580:
-            addI(instructionData[i].rd, instructionData[i].rn, instructionData[i].immediate, regArr) break;
+            addI(instructionData[i].rd, instructionData[i].rn, instructionData[i].immediate, regArr);
+            break;
          }
       }
    }
