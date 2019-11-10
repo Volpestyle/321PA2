@@ -46,6 +46,7 @@ int search(int opcode)
     int i;
     for (i = 0; i < 37; i++)
     {
+        printf("%d\n", opcode);
         if (opcodes[i].opcode == opcode)
         {
             return i;
@@ -62,7 +63,7 @@ OpCodeInstr convert(int code)
     while (breakout != 1)
     {
         foundIndex = search(code >> (32 - shift));
-        printf("%d", foundIndex);
+        printf("%d\n", foundIndex);
         if (foundIndex >= 0)
         {
             return opcodes[foundIndex];
