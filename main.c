@@ -29,7 +29,7 @@ int main(int argc, char const *argv[])
 {
    FILE *file;
    size = readFile(argc, argv, rawInstructions, file);
-   printf("%d", size);
+   printf("%d\n", size);
    for (int i = 0; i < size; i++)
    {
       printf("%x\n", rawInstructions[i]);
