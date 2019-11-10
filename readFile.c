@@ -9,7 +9,8 @@ void execute_i_format(__uint32_t code, char* operation);
 void execute_r_format(__uint32_t code, char* operation);
 void setFlags(__uint32_t val);
 
-__uint32_t memory[64];
+__uint32_t memory[4096];
+__uint32_t reg[64];
 int pc = 0;
 int n_flag;
 int z_flag;
@@ -143,25 +144,25 @@ void execute_i_format(__uint32_t code, char* operation){
    int rd = code & 0x1F;
    int rn = (code >> 5) & 0x1F;
    int immediate = (code >> 10) & 0xfff;
-   printf("%d ", memory[rd]);
+   printf("%d ", reg[rd]);
    //printf("%x\n%x\n%d\n", rd, rn, immediate);
    if(operation == "addi"){
-      memory[rd] = memory[rn] + immediate;
+      reg[rd] = reg[rn] + immediate;
    }
    else if(operation == "subi"){
-      memory[rd] = memory[rn] - immediate;
+      reg[rd] = reg[rn] - immediate;
    }
    else if(operation == "andi"){
-      memory[rd] = memory[rn] & immediate;
+      reg[rd] = reg[rn] & immediate;
    }
    else if(operation == "orri"){
-      memory[rd] = memory[rn] | immediate;
+      reg[rd] = reg[rn] | immediate;
    }
    else if(operation == "subis"){
-      memory[rd] = memory[rn] - immediate;
-      setFlags(memory[rd]);
+      reg[rd] = reg[rn] - immediate;
+      setFlags(reg[rd]);
    }
-   printf("%d\n", memory[rd]);
+   printf("%d\n", reg[rd]);
 }
 
 void execute_r_format(__uint32_t code, char* operation){
@@ -170,38 +171,38 @@ void execute_r_format(__uint32_t code, char* operation){
    int shamt = (code >> 10) & 0x3F;
    int rm = (code >> 16) & 0x1F;
    //TODO implement shamt
-   //printf("%d ", memory[rd]);
+   //printf("%d ", reg[rd]);
    if(operation == "add"){
-      memory[rd] = memory[rn] + memory[rm];
+      reg[rd] = reg[rn] + reg[rm];
    }
    else if(operation == "sub"){
-      memory[rd] = memory[rn] - memory[rm];
+      reg[rd] = reg[rn] - reg[rm];
    }
    else if(operation == "and"){
-      memory[rd] = memory[rn] & memory[rm];
+      reg[rd] = reg[rn] & reg[rm];
    }
    else if(operation == "subs"){
-      memory[rd] = memory[rn] - memory[rm];
+      reg[rd] = reg[rn] - reg[rm];
       //TODO: set flags
    }
    else if(operation == "lsl"){
-      memory[rd] = memory[rn] << shamt;
+      reg[rd] = reg[rn] << shamt;
    }
    else if(operation == "lsr"){
-      memory[rd] = memory[rn] >> shamt;
+      reg[rd] = reg[rn] >> shamt;
    }
    else if(operation == "eor"){
-      memory[rd] = memory[rn] ^ memory[rm];
+      reg[rd] = reg[rn] ^ reg[rm];
    }
    else if(operation == "br"){
       //printf("%d %d %d", rd, rm, rn);
-      pc = memory[rn];
+      pc = reg[rn];
    }
    else if(operation == "mul"){
-      memory[rd] = memory[rn] * memory[rm];
+      reg[rd] = reg[rn] * reg[rm];
    }
    
-   //printf("%d\n", memory[rd]);
+   //printf("%d\n", reg[rd]);
 }
 
 void execute_d_format(__uint32_t code, char* operation){
@@ -210,7 +211,10 @@ void execute_d_format(__uint32_t code, char* operation){
    int op2 = (code >> 10) & 0x3;
    int address = (code >> 12) & 0x1ff;
    if(operation == "ldur"){
-      memory[rt] = memory[memory[rn] + address/8]; 
+      reg[rt] = memory[rn + address/8]; 
+   }
+   else if(operation == "stur"){
+      memory[rn + address/8] = rt;
    }
 }
 
