@@ -23,11 +23,12 @@ u_int64_t stack[64];
 struct instructionData instructionData[MAX];
 int rawInstructions[MAX];
 OpCodeInstr instructions[MAX];
+int size = 0;
 
 int main(int argc, char const *argv[])
 {
    FILE *file;
-   int size = readFile(argc, argv, rawInstructions, file);
+   size = readFile(argc, argv, rawInstructions, file);
    for (int i = 0; i < size; i++)
    {
       printf("%x\n", rawInstructions[i]);
