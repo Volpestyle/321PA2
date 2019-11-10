@@ -55,7 +55,7 @@ void and (int des, int reg1, int reg2, u_int64_t *regArr)
 void subs(int des, int reg1, int reg2, u_int64_t *regArr, unsigned int *condFlag)
 {
     regArr[des] = regArr[reg1] - regArr[reg2];
-    setConditionals(des, regArr, condFlag);
+    //setConditionals(des, regArr, condFlag);
 }
 void lsl(int des, int reg1, int offset, u_int64_t *regArr)
 {
