@@ -37,7 +37,7 @@ OpCodeInstr opcodes[] = {
     {1984, STUR, D},   //
     {1986, LDUR, D},   //
     {2044, PRNL, JS},  //
-    {2045, PRNT, R},   //
+    {1021, PRNT, R},   //
     {2046, DUMP, JS},  //
     {2047, HALT, JS}}; //
 
