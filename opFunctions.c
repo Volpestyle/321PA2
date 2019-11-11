@@ -125,6 +125,11 @@ void dump(u_int64_t *regArr, u_int64_t *memory, u_int64_t *stack, FILE *f)
     hexdump(f, memory, 512);
 }
 
+void prnl()
+{
+    printf("\n");
+}
+
 //TYPE D
 void ldur(int des, int reg1, u_int64_t *memory, int offset, u_int64_t *regArr)
 {
@@ -161,10 +166,10 @@ void hexdump(FILE *f, uint64_t *start, size_t size) //displays contents of regis
              printable_char(start[i + 14]), printable_char(start[i + 15]));
     */
         printf(
-            "%08x "
+            "%08lx "
             //" %02hhx %02hhx %02hhx %02hhx %02hhx %02hhx %02hhx %02hhx "
             //" %02hhx %02hhx %02hhx %02hhx %02hhx %02hhx %02hhx %02hhx "
-            "%x %x \n",
+            "%lx %lx \n",
             //" |%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c|\n",
             (int32_t)i * 8,
             start[i], start[i + 1]);
@@ -183,5 +188,5 @@ void hexdump(FILE *f, uint64_t *start, size_t size) //displays contents of regis
     }
     //printf("Mem at index %d is %d\n", i, start[i]);
     //fprintf(f, "%08x\n", (int32_t) size);
-    printf("%08x\n", (int32_t)size * 16);
+    printf("%08lx\n", (int32_t)size * 16);
 }
