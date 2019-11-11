@@ -56,7 +56,7 @@ int main(int argc, char const *argv[])
 
 void iFormat(int code, int i)
 {
-   printf("%d\n", code);
+   //printf("%d\n", code);
    instructionData[i].rd = code & 0x1F;
    instructionData[i].rn = (code >> 5) & 0x1F;
    instructionData[i].immediate = (code >> 10) & 0xfff;
@@ -66,6 +66,7 @@ void iFormat(int code, int i)
 
 void rFormat(int code, int i)
 {
+   printf("%d\n", code);
    instructionData[i].rd = code & 0x1F;
    instructionData[i].rd = (code >> 5) & 0x1F;
    instructionData[i].shamt = (code >> 10) & 0x3F;
