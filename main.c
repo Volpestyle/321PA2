@@ -24,10 +24,10 @@ struct instructionData instructionData[MAX];
 int rawInstructions[MAX];
 OpCodeInstr instructions[MAX];
 int size = 0;
+FILE *file;
 
 int main(int argc, char const *argv[])
 {
-   FILE *file;
    size = readFile(argc, argv, rawInstructions, file);
    printf("%d\n", size);
    for (int i = 0; i < size; i++)
@@ -60,7 +60,7 @@ void iFormat(int code, int i)
    instructionData[i].rd = code & 0x1F;
    instructionData[i].rn = (code >> 5) & 0x1F;
    instructionData[i].immediate = (code >> 10) & 0xfff;
-   printf(" -- R");
+   printf("Instruction Type: R \n");
    printf(" -> Immediate = %d, Rn = %d, Rd = %d\n", instructionData[i].immediate, instructionData[i].rn, instructionData[i].rd);
 }
 
@@ -70,7 +70,7 @@ void rFormat(int code, int i)
    instructionData[i].rd = (code >> 5) & 0x1F;
    instructionData[i].shamt = (code >> 10) & 0x3F;
    instructionData[i].rm = (code >> 16) & 0x1F;
-   printf(" -- I");
+   printf("Instruction Type: I \n");
    printf(" -> Rm = %d, Rn = %d, Rd = %d\n", instructionData[i].rm, instructionData[i].rn, instructionData[i].rd);
 }
 
@@ -79,7 +79,7 @@ void dFormat(int code, int i)
    instructionData[i].rd = code & 0x1F;
    instructionData[i].rn = (code >> 5) & 0x1F;
    instructionData[i].destAddress = (code >> 12) & 0x1ff;
-   printf(" -- D");
+   printf("Instruction Type: D \n");
    printf(" -> DTa = %d, Rn = %d, Rt = %d\n", instructionData[i].destAddress, instructionData[i].rn, instructionData[i].rd);
 }
 
@@ -89,8 +89,28 @@ void executeInstructions()
    {
       switch (instructions[i].opcode)
       {
+      //ADD I
       case 580:
          addI(instructionData[i].rd, instructionData[i].rn, instructionData[i].immediate, regArr);
+         break;
+
+      //ADD
+      case 1112:
+         add(instructionData[i].rd, instructionData[i].rn, instructionData[i].rm, regArr);
+         break;
+
+      //SUB
+      case 1624:
+         sub(instructionData[i].rd, instructionData[i].rn, instructionData[i].rm, regArr);
+
+      //DUMP
+      case 2046:
+         dump(regArr, memory, stack, file);
+         break;
+
+      //HALT
+      case 2047:
+         halt(regArr, memory, stack, file);
          break;
       }
    }

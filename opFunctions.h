@@ -17,3 +17,7 @@ void eor(int des, int reg1, int reg2, u_int64_t *regArr);
 void mul(int des, int reg1, int reg2, u_int64_t *regArr);
 
 void ldur(int des, int reg1, u_int64_t *memory, int offset, u_int64_t *regArr);
+
+void dump(u_int64_t *regArr, u_int64_t *memory, u_int64_t *stack, FILE *f);
+void halt(u_int64_t *regArr, u_int64_t *memory, u_int64_t *stack, FILE *f);
+void hexdump(FILE *f, u_int64_t *start, size_t size);
