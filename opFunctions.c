@@ -87,31 +87,31 @@ void dump(u_int64_t *regArr, u_int64_t *memory, u_int64_t *stack, FILE *f)
         }
         else if (i == 17)
         {
-            printf("(IP1)  X%d: %d\n", i, regArr[i]);
+            printf("(IP1)  X%d: %ld\n", i, regArr[i]);
         }
         else if (i == 28)
         {
-            printf(" (SP)  X%d: %d\n", i, regArr[i]);
+            printf(" (SP)  X%d: %ld\n", i, regArr[i]);
         }
         else if (i == 29)
         {
-            printf(" (FP)  X%d: %d\n", i, regArr[i]);
+            printf(" (FP)  X%d: %ld\n", i, regArr[i]);
         }
         else if (i == 30)
         {
-            printf(" (LR)  X%d: %d\n", i, regArr[i]);
+            printf(" (LR)  X%d: %ld\n", i, regArr[i]);
         }
         else if (i == 31)
         {
-            printf("(XZR)  X%d: %d\n", i, regArr[i]);
+            printf("(XZR)  X%d: %ld\n", i, regArr[i]);
         }
         else if (i < 10)
         {
-            printf("       X%d:  %d\n", i, regArr[i]);
+            printf("       X%d:  %ld\n", i, regArr[i]);
         }
         else
         {
-            printf("       X%d: %d\n", i, regArr[i]);
+            printf("       X%d: %ld\n", i, regArr[i]);
         }
     }
     prnl();
