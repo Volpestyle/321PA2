@@ -203,7 +203,7 @@ void executeInstructions()
 
       //BCOND
       case 84:
-         if (bcond(instrData[i].rd, regArr, conditionFlags))
+         if (bCond(instrData[i].rd, regArr, conditionFlags))
          {
             i += instrData[i].bcondAddress - 1;
          }
@@ -255,3 +255,4 @@ void executeInstructions()
          break;
       }
    }
+}
