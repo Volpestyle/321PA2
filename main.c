@@ -56,6 +56,7 @@ int main(int argc, char const *argv[])
 
 void iFormat(OpCodeInstr op, int i)
 {
+   printf("%d\n", op.opcode);
    instructionData[i].rd = op.opcode & 0x1F;
    instructionData[i].rn = (op.opcode >> 5) & 0x1F;
    instructionData[i].immediate = (op.opcode >> 10) & 0xfff;

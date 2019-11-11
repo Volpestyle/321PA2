@@ -44,7 +44,7 @@ OpCodeInstr opcodes[] = {
 int search(int opcode)
 {
     int i;
-    printf("%x\n", opcode);
+    //printf("%x\n", opcode);
     for (i = 0; i < 37; i++)
     {
         if (opcodes[i].opcode == opcode)
