@@ -38,6 +38,7 @@ int main(int argc, char const *argv[])
    {
       OpCodeInstr op = convert(rawInstructions[index]);
       instructions[index] = op;
+      printf("%c", op.optype);
       switch (op.optype)
       {
       case R:
