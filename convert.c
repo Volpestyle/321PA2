@@ -90,11 +90,29 @@ OpCodeInstr convert(int code)
         {
             return opcodes[foundIndex];
         }
-        if (shift < 11)
+        switch (shift)
         {
-            shift++;
+        case 11:
+            shift = -1;
+            break;
+
+        case 10:
+            shift = 11;
+            break;
+
+        case 9:
+            shift = 10;
+            break;
+
+        case 8:
+            shift = 9;
+            break;
+
+        case 6:
+            shift = 8;
+            break;
         }
-        else
+        if (shift < 0)
         {
             breakout = 1;
         }
