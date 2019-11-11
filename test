@@ -1,0 +1,7 @@
+ADDI X0, XZR, #1
+ADD X1, XZR, XZR
+SUBS X9, X1, X0
+B.GE label
+PRNT X0
+label:
+PRNT X1
