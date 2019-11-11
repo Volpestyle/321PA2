@@ -60,7 +60,7 @@ void iFormat(int code, int i)
    instructionData[i].rd = code & 0x1F;
    instructionData[i].rn = (code >> 5) & 0x1F;
    instructionData[i].immediate = (code >> 10) & 0xfff;
-   printf("Instruction Type: R \n");
+   printf("Instruction Type: I \n");
    printf(" -> Immediate = %d, Rn = %d, Rd = %d\n", instructionData[i].immediate, instructionData[i].rn, instructionData[i].rd);
 }
 
@@ -71,7 +71,7 @@ void rFormat(int code, int i)
    instructionData[i].rd = (code >> 5) & 0x1F;
    instructionData[i].shamt = (code >> 10) & 0x3F;
    instructionData[i].rm = (code >> 16) & 0x1F;
-   printf("Instruction Type: I \n");
+   printf("Instruction Type: R \n");
    printf(" -> Rm = %d, Rn = %d, Rd = %d\n", instructionData[i].rm, instructionData[i].rn, instructionData[i].rd);
 }
 
