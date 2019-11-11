@@ -72,8 +72,8 @@ void iFormat(int code, int i)
    instrData[i].rd = code & 0x1F;
    instrData[i].rn = (code >> 5) & 0x1F;
    instrData[i].immediate = (code >> 10) & 0xfff;
-   printf("Instruction Type: I \n");
-   printf(" -> Immediate = %d, Rn = %d, Rd = %d\n", instrData[i].immediate, instrData[i].rn, instrData[i].rd);
+   //printf("Instruction Type: I \n");
+   //printf(" ==> Immediate = %d, Rn = %d, Rd = %d\n", instrData[i].immediate, instrData[i].rn, instrData[i].rd);
 }
 
 void rFormat(int code, int i)
@@ -82,8 +82,8 @@ void rFormat(int code, int i)
    instrData[i].rn = (code >> 5) & 0x1F;
    instrData[i].shamt = (code >> 10) & 0x3F;
    instrData[i].rm = (code >> 16) & 0x1F;
-   printf("Instruction Type: R \n");
-   printf(" -> Rm = %d, Rn = %d, Rd = %d\n", instrData[i].rm, instrData[i].rn, instrData[i].rd);
+   //printf("Instruction Type: R \n");
+   //printf(" ==> Rm = %d, Rn = %d, Rd = %d\n", instrData[i].rm, instrData[i].rn, instrData[i].rd);
 }
 
 void dFormat(int code, int i)
@@ -91,15 +91,15 @@ void dFormat(int code, int i)
    instrData[i].rd = code & 0x1F;
    instrData[i].rn = (code >> 5) & 0x1F;
    instrData[i].destAddress = (code >> 12) & 0x1ff;
-   printf("Instruction Type: D \n");
-   printf(" -> DTa = %d, Rn = %d, Rt = %d\n", instrData[i].destAddress, instrData[i].rn, instrData[i].rd);
+   //printf("Instruction Type: D \n");
+   //printf(" ==> Destination Address = %d, Rn = %d, Rt = %d\n", instrData[i].destAddress, instrData[i].rn, instrData[i].rd);
 }
 
 void bFormat(int code, int i)
 {
    instrData[i].branchAddress = code & 0x3FFFFFF;
-   printf("Instruction Type: B \n");
-   printf(" -> Branch Address: %d", instrData[i].branchAddress);
+   //printf("Instruction Type: B \n");
+   //printf(" -> Branch Address: %d", instrData[i].branchAddress);
 }
 
 void cbFormat(int code, int i)
