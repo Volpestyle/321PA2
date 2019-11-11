@@ -60,9 +60,32 @@ OpCodeInstr convert(int code)
     int shift = 6;
     int breakout = 0;
     int foundIndex = 0;
+    int mask = 0;
     while (breakout != 1)
     {
-        foundIndex = search(code >> (32 - shift));
+        switch (shift)
+        {
+        case 6:
+            mask = 0x3F;
+            break;
+
+        case 8:
+            mask = 0xFF;
+            break;
+
+        case 9:
+            mask = 0x1FF;
+            break;
+
+        case 10:
+            mask = 0x3FF;
+            break;
+
+        case 11:
+            mask = 0x7FF;
+            break;
+        }
+        foundIndex = search(code >> (32 - shift) & mask);
         printf("%d\n", foundIndex);
         if (foundIndex >= 0)
         {
