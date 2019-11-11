@@ -120,7 +120,7 @@ void executeInstructions()
          break;
 
       case 964:
-         subis(instrData[i].rd, instrData[i].rn, instrData[i].immediate, regArr, condFlag);
+         subis(instrData[i].rd, instrData[i].rn, instrData[i].immediate, regArr, conditionFlags);
          break;
 
       case 840:
@@ -148,7 +148,7 @@ void executeInstructions()
          break;
 
       case 1880:
-         subs(instrData[i].rd, instrData[i].rn, instrData[i].rm, regArr, condFlag);
+         subs(instrData[i].rd, instrData[i].rn, instrData[i].rm, regArr, conditionFlags);
          break;
 
       case 1691:

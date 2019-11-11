@@ -36,12 +36,6 @@ void subis(int des, int reg1, int val, u_int64_t *regArr, unsigned int *conditio
     conditionsHandler(des, regArr, conditionFlags);
 }
 
-void subs(int des, int reg1, int reg2, u_int64_t *regArr, unsigned int *conditionFlags)
-{
-    regArr[des] = regArr[reg1] - regArr[reg2];
-    conditionsHandler(des, regArr, conditionFlags);
-}
-
 void eorI(int des, int reg1, int val, u_int64_t *regArr)
 {
     regArr[des] = regArr[reg1] ^ val;
@@ -71,7 +65,7 @@ void sub(int des, int reg1, int reg2, u_int64_t *regArr)
 void subs(int des, int reg1, int reg2, u_int64_t *regArr, unsigned int *conditionFlags)
 {
     regArr[des] = regArr[reg1] - regArr[reg2];
-    //setConditionals(des, regArr, conditionFlags);
+    conditionsHandler(des, regArr, conditionFlags);
 }
 
 void lsl(int des, int reg1, int offset, u_int64_t *regArr)
@@ -303,3 +297,4 @@ void conditionsHandler(int des, u_int64_t *regArr, unsigned int *conditionFlags)
             break;
         }
     }
+}
