@@ -130,6 +130,12 @@ void prnl()
     printf("\n");
 }
 
+void halt(u_int64_t *regArr, u_int64_t *memory, u_int64_t *stack, FILE *f)
+{
+    dump(regArr, memory, stack, f);
+    exit(0); //terminates
+}
+
 //TYPE D
 void ldur(int des, int reg1, u_int64_t *memory, int offset, u_int64_t *regArr)
 {
