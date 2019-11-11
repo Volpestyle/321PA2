@@ -234,7 +234,7 @@ void prnl()
 
 void prnt(int reg, u_int64_t *regArr)
 {
-    printf("Register: %d \nDecimal: %d \nHex: %x \n", reg, regArr[reg], regArr[reg]);
+    printf("Register: %d \nDecimal: %ld \nHex: %lx \n", reg, regArr[reg], regArr[reg]);
 }
 
 //OTHER
