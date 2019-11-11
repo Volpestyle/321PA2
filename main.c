@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "readFile.h"
 #include "convert.h"
 #include "opFunctions.h"
@@ -9,6 +10,7 @@
 void iFormat(int code, int i);
 void rFormat(int code, int i);
 void dFormat(int code, int i);
+void getStats();
 void executeInstructions();
 
 struct instrData
@@ -20,6 +22,8 @@ u_int64_t regArr[32];
 u_int64_t memory[512];
 u_int64_t stack[64];
 
+int dataHazards = 0;
+int controlHazards = 0;
 struct instrData instrData[MAX];
 int rawInstructions[MAX];
 OpCodeInstr instructions[MAX];
@@ -29,10 +33,13 @@ FILE *file;
 int main(int argc, char const *argv[])
 {
    size = readFile(argc, argv, rawInstructions, file) - 1;
-   printf("%d\n", size);
+   printf("%d Instructions: \n", size);
    for (int i = 0; i < size; i++)
    {
       printf("%x\n", rawInstructions[i]);
+      instrData[i].rm = -1;
+      instrData[i].rn = -1;
+      instrData[i].rd = -1;
    }
    for (int index = 0; index < size; index++)
    {
@@ -56,6 +63,7 @@ int main(int argc, char const *argv[])
       }
    }
    executeInstructions();
+   getStats();
 }
 
 void iFormat(int code, int i)
@@ -265,4 +273,28 @@ void executeInstructions()
          break;
       }
    }
+}
+
+void getStats()
+{
+   int j = 0;
+   for (int i = 0; i < size; i++)
+   {
+      j = i;
+      while (j < i + 4 && j < size - 1)
+      {
+         if (instrData[i].rd != -1)
+         {
+            bool a = instrData[i].rd == instrData[j].rm;
+            bool b = instrData[i].rd == instrData[j].rn;
+            bool c = instrData[i].rd == instrData[j].rd;
+            if (a || b || c)
+            {
+               dataHazards++;
+               //cycles += 5 - (j-i);
+            }
+         }
+      }
+   }
+   printf("Number of data hazards = %d\n", dataHazards);
 }
