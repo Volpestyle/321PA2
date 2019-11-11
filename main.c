@@ -6,9 +6,9 @@
 #include "opFunctions.h"
 #define MAX 1000
 
-void iFormat(OpCodeInstr op, int i);
-void rFormat(OpCodeInstr op, int i);
-void dFormat(OpCodeInstr op, int i);
+void iFormat(int code, int i);
+void rFormat(int code, int i);
+void dFormat(int code, int i);
 void executeInstructions();
 
 struct instructionData
@@ -41,44 +41,44 @@ int main(int argc, char const *argv[])
       switch (op.optype)
       {
       case R:
-         rFormat(op, index);
+         rFormat(rawInstructions[index], index);
          break;
       case I:
-         iFormat(op, index);
+         iFormat(rawInstructions[index], index);
          break;
       case D:
-         dFormat(op, index);
+         dFormat(rawInstructions[index], index);
          break;
       }
       executeInstructions();
    }
 }
 
-void iFormat(OpCodeInstr op, int i)
+void iFormat(int code, int i)
 {
-   printf("%d\n", op.opcode);
-   instructionData[i].rd = op.opcode & 0x1F;
-   instructionData[i].rn = (op.opcode >> 5) & 0x1F;
-   instructionData[i].immediate = (op.opcode >> 10) & 0xfff;
+   printf("%d\n", code);
+   instructionData[i].rd = code & 0x1F;
+   instructionData[i].rn = (code >> 5) & 0x1F;
+   instructionData[i].immediate = (code >> 10) & 0xfff;
    printf(" -- R");
    printf(" -> Immediate = %d, Rn = %d, Rd = %d\n", instructionData[i].immediate, instructionData[i].rn, instructionData[i].rd);
 }
 
-void rFormat(OpCodeInstr op, int i)
+void rFormat(int code, int i)
 {
-   instructionData[i].rd = op.opcode & 0x1F;
-   instructionData[i].rd = (op.opcode >> 5) & 0x1F;
-   instructionData[i].shamt = (op.opcode >> 10) & 0x3F;
-   instructionData[i].rm = (op.opcode >> 16) & 0x1F;
+   instructionData[i].rd = code & 0x1F;
+   instructionData[i].rd = (code >> 5) & 0x1F;
+   instructionData[i].shamt = (code >> 10) & 0x3F;
+   instructionData[i].rm = (code >> 16) & 0x1F;
    printf(" -- I");
    printf(" -> Rm = %d, Rn = %d, Rd = %d\n", instructionData[i].rm, instructionData[i].rn, instructionData[i].rd);
 }
 
-void dFormat(OpCodeInstr op, int i)
+void dFormat(int code, int i)
 {
-   instructionData[i].rd = op.opcode & 0x1F;
-   instructionData[i].rn = (op.opcode >> 5) & 0x1F;
-   instructionData[i].destAddress = (op.opcode >> 12) & 0x1ff;
+   instructionData[i].rd = code & 0x1F;
+   instructionData[i].rn = (code >> 5) & 0x1F;
+   instructionData[i].destAddress = (code >> 12) & 0x1ff;
    printf(" -- D");
    printf(" -> DTa = %d, Rn = %d, Rt = %d\n", instructionData[i].destAddress, instructionData[i].rn, instructionData[i].rd);
 }
