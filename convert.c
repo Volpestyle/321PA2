@@ -86,7 +86,6 @@ OpCodeInstr convert(int code)
             break;
         }
         foundIndex = search(code >> (32 - shift) & mask);
-        printf("%d\n", foundIndex);
         if (foundIndex >= 0)
         {
             return opcodes[foundIndex];

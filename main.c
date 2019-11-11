@@ -28,7 +28,7 @@ FILE *file;
 
 int main(int argc, char const *argv[])
 {
-   size = readFile(argc, argv, rawInstructions, file);
+   size = readFile(argc, argv, rawInstructions, file) - 1;
    printf("%d\n", size);
    for (int i = 0; i < size; i++)
    {

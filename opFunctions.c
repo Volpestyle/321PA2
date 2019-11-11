@@ -4,10 +4,14 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include "opFunctions.h"
-//uint32_t??
 u_int8_t memory[4096]; //4096? //1025
 u_int8_t stack[512];   //512?? //129
 u_int8_t reg[32];
+
+void prnl()
+{
+    printf("\n");
+}
 
 //TYPE I
 
@@ -123,11 +127,6 @@ void dump(u_int64_t *regArr, u_int64_t *memory, u_int64_t *stack, FILE *f)
     prnl();
     printf("%s\n", "Main Memory: ");
     hexdump(f, memory, 512);
-}
-
-void prnl()
-{
-    printf("\n");
 }
 
 void halt(u_int64_t *regArr, u_int64_t *memory, u_int64_t *stack, FILE *f)
