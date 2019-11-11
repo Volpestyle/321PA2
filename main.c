@@ -60,7 +60,7 @@ void iFormat(OpCodeInstr op, int i)
    instructionData[i].rn = (op.opcode >> 5) & 0x1F;
    instructionData[i].immediate = (op.opcode >> 10) & 0xfff;
    printf(" -- R");
-   printf(" -> Rm = %d, Rn = %d, Rd = %d\n", instructionData[i].rm, instructionData[i].rn, instructionData[i].rd);
+   printf(" -> Immediate = %d, Rn = %d, Rd = %d\n", instructionData[i].immediate, instructionData[i].rn, instructionData[i].rd);
 }
 
 void rFormat(OpCodeInstr op, int i)
@@ -70,7 +70,7 @@ void rFormat(OpCodeInstr op, int i)
    instructionData[i].shamt = (op.opcode >> 10) & 0x3F;
    instructionData[i].rm = (op.opcode >> 16) & 0x1F;
    printf(" -- I");
-   printf(" -> Immediate = %d, Rn = %d, Rd = %d\n", instructionData[i].immediate, instructionData[i].rn, instructionData[i].rd);
+   printf(" -> Rm = %d, Rn = %d, Rd = %d\n", instructionData[i].rm, instructionData[i].rn, instructionData[i].rd);
 }
 
 void dFormat(OpCodeInstr op, int i)
