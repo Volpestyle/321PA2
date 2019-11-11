@@ -49,6 +49,10 @@ int main(int argc, char const *argv[])
       case D:
          dFormat(rawInstructions[index], index);
          break;
+      case B:
+         bFormat(rawInstructions[index], index);
+      case CB:
+         cbFormat(rawInstructions[index], index);
       }
    }
    executeInstructions();
@@ -88,6 +92,12 @@ void bFormat(int code, int i)
    instrData[i].branchAddress = code & 0x3FFFFFF;
    printf("Instruction Type: B \n");
    printf(" -> Branch Address: %d", instrData[i].branchAddress);
+}
+
+void cbFormat(int code, int i)
+{
+   instrData[i].rd = code & 0x1F;
+   instrData[i].bcondAddress = code >> 5 & 0x7FFFF;
 }
 
 void executeInstructions()
