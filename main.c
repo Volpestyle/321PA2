@@ -38,7 +38,6 @@ int main(int argc, char const *argv[])
    {
       OpCodeInstr op = convert(rawInstructions[index]);
       instructions[index] = op;
-      printf("%c", op.optype);
       switch (op.optype)
       {
       case R:
@@ -51,8 +50,8 @@ int main(int argc, char const *argv[])
          dFormat(rawInstructions[index], index);
          break;
       }
-      executeInstructions();
    }
+   executeInstructions();
 }
 
 void iFormat(int code, int i)
