@@ -83,7 +83,7 @@ void dump(u_int64_t *regArr, u_int64_t *memory, u_int64_t *stack, FILE *f)
 
         if (i == 16)
         {
-            printf("(IPO)  X%h: %h\n", i, (int)regArr[i]);
+            printf("(IPO)  X%d: %ld\n", i, regArr[i]);
         }
         else if (i == 17)
         {
