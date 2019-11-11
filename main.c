@@ -282,7 +282,7 @@ void getStats()
    int j = 0;
    for (int i = 0; i < size; i++)
    {
-      j = i;
+      j = i + 1;
       while (j < i + 4 && j < size - 1)
       {
          if (instrData[i].rd != -1)
@@ -296,6 +296,7 @@ void getStats()
                //cycles += 5 - (j-i);
             }
          }
+         j++;
       }
    }
    printf("Number of data hazards = %d\n", dataHazards);

@@ -121,53 +121,13 @@ int bCond(int reg, u_int64_t *regArr, unsigned int *conditionFlags)
 void hexdump(FILE *f, uint64_t *start, size_t size) //displays contents of registers, memory, and disassembled program
 {
     size_t i;
-
     for (i = 0; i < size - (size % 2); i += 2)
-    //for(i = 0; i < size; i++)
     {
-        /*
-     fprintf(f,
-             "%08x "
-             " %02hhx %02hhx %02hhx %02hhx %02hhx %02hhx %02hhx %02hhx "
-             " %02hhx %02hhx %02hhx %02hhx %02hhx %02hhx %02hhx %02hhx "
-             " |%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c|\n",
-             (int32_t) i,
-             start[i +  0], start[i +  1], start[i +  2], start[i +  3],
-             start[i +  4], start[i +  5], start[i +  6], start[i +  7],
-             start[i +  8], start[i +  9], start[i + 10], start[i + 11],
-             start[i + 12], start[i + 13], start[i + 14], start[i + 15],
-             printable_char(start[i +  0]), printable_char(start[i +  1]),
-             printable_char(start[i +  2]), printable_char(start[i +  3]),
-             printable_char(start[i +  4]), printable_char(start[i +  5]),
-             printable_char(start[i +  6]), printable_char(start[i +  7]),
-             printable_char(start[i +  8]), printable_char(start[i +  9]),
-             printable_char(start[i + 10]), printable_char(start[i + 11]),
-             printable_char(start[i + 12]), printable_char(start[i + 13]),
-             printable_char(start[i + 14]), printable_char(start[i + 15]));
-    */
-        printf(
-            "%08x "
-            //" %02hhx %02hhx %02hhx %02hhx %02hhx %02hhx %02hhx %02hhx "
-            //" %02hhx %02hhx %02hhx %02hhx %02hhx %02hhx %02hhx %02hhx "
-            "%lx %lx \n",
-            //" |%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c|\n",
-            (int32_t)i * 8,
-            start[i], start[i + 1]);
-        /*(start[i]>>56)&0xf, (start[i]>>48)&0xf, (start[i]>>40)&0xf, (start[i]>>32)&0xf,
-                    (start[i]>>24)&0xf, (start[i]>>16)&0xf, (start[i]>>8)&0xf, (start[i])&0xf,
-                    (start[i + 1]>>56)&0xf, (start[i + 1]>>48)&0xf, (start[i + 1]>>40)&0xf, (start[i + 1]>>32)&0xf,
-                    (start[i + 1]>>24)&0xf, (start[i + 1]>>16)&0xf, (start[i + 1]>>8)&0xf, (start[i + 1])&0xf,
-                    printable_char((start[i]>>56)&0xf), printable_char((start[i]>>48)&0xf),
-                    printable_char((start[i]>>40)&0xf), printable_char((start[i]>>32)&0xf),
-                    printable_char((start[i]>>24)&0xf), printable_char((start[i]>>16)&0xf),
-                    printable_char((start[i]>>8)&0xf), printable_char((start[i])&0xf),
-                    printable_char((start[i + 1]>>56)&0xf), printable_char((start[i + 1]>>48)&0xf),
-                    printable_char((start[i + 1]>>40)&0xf), printable_char((start[i + 1]>>32)&0xf),
-                    printable_char((start[i + 1]>>24)&0xf), printable_char((start[i + 1]>>16)&0xf),
-                    printable_char((start[i + 1]>>8)&0xf), printable_char((start[i + 1])&0xf));*/
+
+        printf("%08x "
+               "%lx %lx \n",
+               (int32_t)i * 8, start[i], start[i + 1]);
     }
-    //printf("Mem at index %d is %d\n", i, start[i]);
-    //fprintf(f, "%08x\n", (int32_t) size);
     printf("%08x\n", (int32_t)size * 16);
 }
 
@@ -212,7 +172,6 @@ void dump(u_int64_t *regArr, u_int64_t *memory, u_int64_t *stack, FILE *f)
     }
     prnl();
     prnl();
-    //SP & FP - initialized to the size of the stack
     printf("%s\n", "Stack: ");
     hexdump(f, stack, 64);
     prnl();
@@ -224,7 +183,7 @@ void dump(u_int64_t *regArr, u_int64_t *memory, u_int64_t *stack, FILE *f)
 void halt(u_int64_t *regArr, u_int64_t *memory, u_int64_t *stack, FILE *f)
 {
     dump(regArr, memory, stack, f);
-    exit(0); //terminates
+    exit(0);
 }
 
 void prnl()
