@@ -10,6 +10,8 @@
 void iFormat(int code, int i);
 void rFormat(int code, int i);
 void dFormat(int code, int i);
+void bFormat(int code, int i);
+void cbFormat(int code, int i);
 void getStats();
 void executeInstructions();
 
