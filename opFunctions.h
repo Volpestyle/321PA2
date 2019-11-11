@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include <stdio.h>
+void prnl();
 void addI(int des, int reg1, int val, u_int64_t *regArr);
 void subI(int des, int reg1, int val, u_int64_t *regArr);
 void andI(int des, int reg1, int val, u_int64_t *regArr);
