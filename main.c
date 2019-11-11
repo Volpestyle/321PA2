@@ -35,10 +35,10 @@ FILE *file;
 int main(int argc, char const *argv[])
 {
    size = readFile(argc, argv, rawInstructions, file) - 1;
-   printf("%d Instructions: \n", size);
+   //printf("%d Instructions: \n", size);
    for (int i = 0; i < size; i++)
    {
-      printf("%x\n", rawInstructions[i]);
+      //printf("%x\n", rawInstructions[i]);
       instrData[i].rm = -1;
       instrData[i].rn = -1;
       instrData[i].rd = -1;
@@ -299,5 +299,5 @@ void getStats()
          j++;
       }
    }
-   printf("Number of data hazards = %d\n", dataHazards);
+   printf("Number of data hazards: %d\n", dataHazards);
 }

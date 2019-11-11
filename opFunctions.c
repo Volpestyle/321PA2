@@ -193,7 +193,7 @@ void prnl()
 
 void prnt(int reg, u_int64_t *regArr)
 {
-    printf("Register: %d --> Decimal: %ld", reg, regArr[reg]);
+    printf("Register: %d --> Decimal: %ld\n", reg, regArr[reg]);
 }
 
 //OTHER
